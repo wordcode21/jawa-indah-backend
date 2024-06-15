@@ -48,9 +48,9 @@ router.get("/products",checkAuth,(req,res)=>{
                 if(item.foto !== null){
                     item.foto = baseUrl + item.foto;
                 }
+                const diupdate_tanggal = item.diupdate_tanggal;
+                item.diupdate_tanggal = diupdate_tanggal.toISOString().split('T')[0];;
             });
-            const diupdate_tanggal = item.diupdate_tanggal;
-            item.diupdate_tanggal = diupdate_tanggal.toISOString().split('T')[0];;
         }
         res.status(200).json({status: 200,data: result});
     })
@@ -86,7 +86,6 @@ router.post("/products-admin",checkAdmin,generateKodeBarang,getDate,upload.singl
     const { nama_barang, stok, harga} = req.body;
     const kode_barang = req.kodeBarang;
     const tanggal = req.date;
-    console.log(tanggal)
     if(!nama_barang || !stok || !harga){
         fs.unlink(filePath, (err) => {
             if (err) {
