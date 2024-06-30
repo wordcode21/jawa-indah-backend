@@ -6,7 +6,7 @@ function generateKodeKeranjang(req,res,next){
         if (err) return res.status(500).json({ message: err.message });
         if(results[0].lastId){
             let kodeKeranjang = results[0].lastId;
-            let kodeKeranjangTanpaTR = parseInt(kodeKeranjang.slice(2), 6);
+            let kodeKeranjangTanpaTR = parseInt(kodeKeranjang.slice(2), 10);
             req.kodeKeranjang = `KR${String(kodeKeranjangTanpaTR+1).padStart(3, '0')}`;
         }else{
             let newId = 1;

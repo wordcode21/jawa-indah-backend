@@ -9,6 +9,9 @@ const SECRET_KEY = process.env.SECRET_KEY_USER;
 
 router.post("/login",(req,res)=>{
     const{username, password} = req.body;
+    if(!username || !password){
+        return res.status(400).json({status: 400, message:"bad request"});
+    };
     const query = "select * from pembeli where username = ?";
     db.query(query,[username],(err,result)=>{
         if(err){
@@ -25,7 +28,7 @@ router.post("/login",(req,res)=>{
             if(!isMatch){
                 return res.status(401).json({status: 401, message: "Invalid Cridentials"});
             }
-            const token = jwt.sign({username: user.username},SECRET_KEY,{expiresIn: "24h"});
+            const token = jwt.sign({username: user.username},SECRET_KEY);
             res.status(200).json({status: 200,token: token});
         });
     });

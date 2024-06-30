@@ -26,7 +26,7 @@ router.post("/login-admin",(req,res)=>{
             if(!isMatch){
                 return res.status(401).json({status:401, message: "invalid cridentials"});
             }
-            const token = jwt.sign({username: user.username},SECRET_KEY,{expiresIn: "24h"});
+            const token = jwt.sign({username: user.username},SECRET_KEY);
             const data = {
                 username: result[0].username
             }

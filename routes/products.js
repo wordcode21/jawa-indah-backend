@@ -96,7 +96,7 @@ router.post("/products-admin",checkAdmin,generateKodeBarang,getDate,upload.singl
         return res.status(400).json({status: 400, message: "All Parameter must be filled"});
     }
     const query = "insert into barang (kode_barang,nama_barang,stok,harga,foto,diupdate_tanggal) values (?,?,?,?,?,?)";
-    db.query(query,[kode_barang,nama_barang,stok,harga,filePath,tanggal],(err,result)=>{
+    db.query(query,[kode_barang,nama_barang,parseInt(stok),parseInt(harga),filePath,tanggal],(err,result)=>{
         if (err){
             fs.unlink(filePath, (err) => {
                 if (err) {
@@ -104,6 +104,7 @@ router.post("/products-admin",checkAdmin,generateKodeBarang,getDate,upload.singl
                 }
                 console.log('File deleted successfully');
             });
+            console.log(err);
             res.status(500).json({message: "Database eror"});
             return;
         };
@@ -123,17 +124,17 @@ router.delete("/products-admin",checkAdmin,(req,res)=>{
             return res.status(404).json({status: 404, message: "Data tidak ditemukan"});
         }
         const foto = result[0].foto; 
-        fs.unlink(foto,(err)=>{
-            if (err) {
-                console.error('Error deleting file:', err);
-                return res.status(500).json({ status: 500, message: "Error deleting file" });
-            }
-            console.log('File deleted successfully');
-        });
         db.query(query1,[kode_barang],(err,result)=>{
             if(err){
                 return res.status(500).json({status: 500, message: err});
             }
+            fs.unlink(foto,(err)=>{
+                if (err) {
+                    console.error('Error deleting file:', err);
+                    return res.status(500).json({ status: 500, message: "Error deleting file" });
+                }
+                console.log('File deleted successfully');
+            });
             res.json({status:200, message: "file deleted successfully"});
         });
     });

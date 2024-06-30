@@ -5,6 +5,9 @@ const bcrypt = require("bcrypt");
 
 router.post("/register",(req,res)=>{
     const {username, email, name, password} = req.body;
+    if(!username || !email || !name || !password){
+        res.status(400).json({status: 400,message: "bad request"});
+    }
     const hashPassword = bcrypt.hashSync(password,5);
     const defaultFoto = "uploads/default.jpg"; 
     const query = "insert into pembeli (username,email,name,password,foto) values(?,?,?,?,?)";

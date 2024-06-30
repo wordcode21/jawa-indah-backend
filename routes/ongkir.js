@@ -3,13 +3,15 @@ const router = express.Router();
 const dotenv = require("dotenv");
 dotenv.config();
 const axios  = require("axios"); 
+const checkAuth = require("../middleware/checkAuth");
 const apiKey = process.env.API_KEY_RAJAONGKIR;
 const url = 'https://api.rajaongkir.com/starter';
 
-router.post('/cek-ongkir', async (req, res) => {
-  const { destination, weight} = req.body;
+router.post('/cek-ongkir',checkAuth ,async (req, res) => {
+  const { destination} = req.body;
   const origin ="205";
   const courier = "jne";
+  const weight = 1;
 
   if ( !destination || !weight ) {
     return res.status(400).json({ error: 'all parameters must be filled' });

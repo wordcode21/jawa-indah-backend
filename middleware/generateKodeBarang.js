@@ -8,7 +8,7 @@ function generateKodeBarang(req,res,next){
         } 
         if(results[0].lastId){
             let kodeBarang = results[0].lastId;
-            let kodeBarangTanpaKB = parseInt(kodeBarang.slice(2), 6);
+            let kodeBarangTanpaKB = parseInt(kodeBarang.slice(2), 10);
             req.kodeBarang = `KB${String(kodeBarangTanpaKB+1).padStart(3, '0')}`;
         }else{
             let newId = 1;
