@@ -41,7 +41,7 @@ router.get("/profile",checkAuth,(req,res)=>{
             return;
         };
         if(result.length >0){
-            const baseUrl= "http://localhost:3000/"
+            const baseUrl= "http://103.127.134.183:3000/"
             result[0].foto = baseUrl + result[0].foto;
         }
         res.status(200).json({status:200,data: result});
