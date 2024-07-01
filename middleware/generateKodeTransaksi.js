@@ -8,10 +8,10 @@ function generateKodeTransaksi(req,res,next){
         if(results[0].lastId){
             let kodeTransaksi = results[0].lastId;
             let kodeTransksiTanpaTR = parseInt(kodeTransaksi.slice(2), 10);
-            req.kodeTransaksi = `TR${String(kodeTransksiTanpaTR+1).padStart(3, '0')}`;
+            req.kodeTransaksi = `TI${String(kodeTransksiTanpaTR+1).padStart(3, '0')}`;
         }else{
             let newId = 1;
-            req.kodeTransaksi = `TR${String(newId).padStart(3, '0')}`;
+            req.kodeTransaksi = `TI${String(newId).padStart(3, '0')}`;
         }
         next();
     });
