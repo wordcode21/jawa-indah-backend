@@ -1,19 +1,27 @@
 const crypto = require('crypto');
 
-function verifyMidtransSignature(req, res, next) {
-  const signatureKey = process.env.SERVER_KEY_MIDTRANS;
-  const body = JSON.stringify(req.body);
-  const receivedSignature = req.headers['x-callback-signature'];
+
+
+const verifyMidtransSignature = (req, res, next) => {
+  const { signature_key, order_id, status_code, gross_amount } = req.body;
+  const serverKey = process.env.SERVER_KEY_MIDTRANS;
+
+  if (!signature_key) {
+    return res.status(401).json({ status: 401, message: 'Missing signature' });
+  }
+
+  const payload = order_id + status_code + gross_amount + serverKey;
   const calculatedSignature = crypto
-    .createHmac('sha512', signatureKey)
-    .update(body)
+    .createHash('sha512')
+    .update(payload)
     .digest('hex');
 
-  if (calculatedSignature === receivedSignature) {
+  if (calculatedSignature === signature_key) {
     next();
   } else {
-    res.status(400).json({ status: 400, message: 'Invalid signature' });
+    console.log('Expected:', calculatedSignature);
+    console.log('Received:', signature_key);
+    res.status(401).json({ status: 401, message: 'Invalid signature' });
   }
-}
-
+};
 module.exports = verifyMidtransSignature;
