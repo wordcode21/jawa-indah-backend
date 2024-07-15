@@ -16,7 +16,7 @@ router.get("/order",checkAuth,(req,res)=>{
             return res.status(500).json({status: 500, message: err}); 
         }
         if(result.length === 0){
-            return res.status(200).json({status:200, message: "No transactions found."});
+            return res.status(200).json({status:200,message: "No transactions found.",data: result});
         }
         res.status(200).json({status: 200, data: result });
     });
@@ -72,7 +72,8 @@ router.post("/order", checkAuth, generateKodeTransaksi, getDate, (req, res) => {
                 first_name:name,
                 last_name:"",
                 email: email
-              }
+              },
+              finish_redirect_url: "http://jawaindahgas.masadji.my.id/"
             };
     
             // Buat transaksi dengan Midtrans Snap API
