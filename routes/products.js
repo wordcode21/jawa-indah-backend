@@ -43,7 +43,7 @@ router.get("/products",checkAuth,(req,res)=>{
             return;
         };
         if(result.length>0){
-            const baseUrl = "http://103.127.134.183:3000/"
+            const baseUrl = "https://api.masadji.my.id/"
             result.forEach(item => {
                 if(item.foto !== null){
                     item.foto = baseUrl + item.foto;
@@ -64,7 +64,7 @@ router.get("/products-admin",checkAdmin,(req,res)=>{
             return;
         };
         if(result.length>0){
-            const baseUrl = "http://103.127.134.183:3000/"
+            const baseUrl = "https://api.masadji.my.id/"
             result.forEach(item => {
                 if(item.foto !== null){
                     item.foto = baseUrl + item.foto;
